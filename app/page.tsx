@@ -53,7 +53,7 @@ export default async function Home() {
   const posts = await getAllPublishedPosts();
 
   return (
-    <div className="lg:ml-64 pt-14 pb-8 min-h-screen bg-background">
+    <div className="min-h-screen bg-background">
       <div className="px-4 md:px-8 py-8 max-w-4xl mx-auto">
 
         {/* System Stats Bar */}
