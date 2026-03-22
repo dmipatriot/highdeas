@@ -1,65 +1,148 @@
-import Image from "next/image";
+import Link from 'next/link';
+import { getAllPublishedPosts, Post, Verdict } from '@/lib/posts';
 
-export default function Home() {
+const STATS = [
+  { label: 'THOUGHT_VELOCITY', value: '4.2/hr' },
+  { label: 'NEURAL_LOAD', value: '78.3%' },
+  { label: 'ACTIVE_NODES', value: '1,024' },
+  { label: 'UPTIME_STREAK', value: '99.99%' },
+];
+
+function verdictChipClass(verdict: Verdict): string {
+  switch (verdict) {
+    case 'GENIUS':
+      return 'border border-primary-container text-primary-container';
+    case 'COOKED':
+      return 'border border-error text-error';
+    case 'MAYBE':
+      return 'border border-secondary text-secondary opacity-60';
+  }
+}
+
+function analysisBlockBorderClass(verdict: Verdict): string {
+  switch (verdict) {
+    case 'GENIUS':
+      return 'border-l-4 border-primary-container/40';
+    case 'COOKED':
+      return 'border-l-4 border-error/40';
+    case 'MAYBE':
+      return 'border-l-4 border-secondary/40';
+  }
+}
+
+function accentBarClass(verdict: Verdict): string {
+  switch (verdict) {
+    case 'GENIUS':
+      return 'bg-primary-container/20 group-hover:bg-primary-container';
+    case 'COOKED':
+      return 'bg-error/20 group-hover:bg-error';
+    case 'MAYBE':
+      return 'bg-secondary/20 group-hover:bg-secondary';
+  }
+}
+
+function formatTimestamp(iso: string): string {
+  return new Date(iso).toISOString().replace('T', ' ').slice(0, 19) + ' UTC';
+}
+
+function truncateId(id: string): string {
+  return id.replace(/-/g, '').slice(0, 8).toUpperCase();
+}
+
+export default async function Home() {
+  const posts = await getAllPublishedPosts();
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <div className="lg:ml-64 pt-14 pb-8 min-h-screen bg-background">
+      <div className="px-4 md:px-8 py-8 max-w-4xl mx-auto">
+
+        {/* System Stats Bar */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-10">
+          {STATS.map((stat) => (
+            <div
+              key={stat.label}
+              className="border border-primary-container/20 bg-surface p-3"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+              <div className="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">
+                {stat.label}
+              </div>
+              <div className="text-primary font-bold crt-glow text-sm">
+                {stat.value}
+              </div>
+            </div>
+          ))}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/* Idea Stream */}
+        <div className="space-y-12">
+          {posts.map((post: Post) => (
+            <article key={post.id} className="relative group pl-6">
+              {/* Left accent bar */}
+              <div
+                className={`absolute left-0 top-0 bottom-0 w-[2px] transition-colors ${accentBarClass(post.verdict)}`}
+              />
+
+              {/* Header row */}
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-3 text-[11px] uppercase tracking-wider">
+                <span className="text-primary-container font-bold">[SYSTEM: NEW_IDEA]</span>
+                <span className="text-on-surface-variant">
+                  // TIMESTAMP: {formatTimestamp(post.created_at)}
+                </span>
+                <span className="text-on-surface-variant">
+                  // CID: #{truncateId(post.id)}
+                </span>
+                <span className={`ml-auto px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest ${verdictChipClass(post.verdict)}`}>
+                  {post.verdict}
+                </span>
+              </div>
+
+              {/* Title */}
+              <Link href={`/post/${post.slug}`}>
+                <h2 className="text-xl md:text-2xl font-bold crt-glow uppercase mb-4 hover:text-primary transition-colors">
+                  <span className="text-primary-container mr-2">&gt; _</span>
+                  {post.title.toUpperCase()}
+                </h2>
+              </Link>
+
+              {/* Analysis block */}
+              <div className={`bg-surface-container p-6 ${analysisBlockBorderClass(post.verdict)}`}>
+                <div className="text-[10px] text-on-surface-variant uppercase tracking-widest mb-3">
+                  AI_REALITY_CHECK // PROCESSING...
+                </div>
+                <p className="text-sm text-on-surface leading-relaxed mb-6">
+                  {post.clean_summary ?? post.raw_input}
+                </p>
+
+                {/* Action links */}
+                <div className="flex flex-wrap gap-4 text-[11px] uppercase tracking-wider">
+                  <button className="text-primary hover:text-primary-container transition-colors">
+                    [[ UPVOTE_DATA ]]
+                  </button>
+                  <button className="text-on-surface-variant hover:text-on-surface transition-colors">
+                    [[ FLAG_ANOMALY ]]
+                  </button>
+                  <button className="text-on-surface-variant hover:text-on-surface transition-colors">
+                    [[ SHARE_ENCRYPTED ]]
+                  </button>
+                </div>
+              </div>
+            </article>
+          ))}
         </div>
-      </main>
+
+        {/* Bottom loading indicator */}
+        <div className="flex items-center gap-3 mt-16 px-2">
+          <div className="flex gap-1.5">
+            <div className="w-1 h-1 bg-primary animate-ping" style={{ animationDelay: '0ms' }} />
+            <div className="w-1 h-1 bg-primary animate-ping" style={{ animationDelay: '200ms' }} />
+            <div className="w-1 h-1 bg-primary animate-ping" style={{ animationDelay: '400ms' }} />
+          </div>
+          <span className="text-[10px] text-on-surface-variant uppercase tracking-widest">
+            FETCHING_REMOTE_ASSETS...
+          </span>
+        </div>
+
+      </div>
     </div>
   );
 }
