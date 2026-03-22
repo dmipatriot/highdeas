@@ -6,8 +6,6 @@ import { usePathname } from 'next/navigation';
 const NAV_ITEMS = [
   { label: 'LIVE_FEED', href: '/', icon: 'sensors' },
   { label: 'ARCHIVE', href: '/archive', icon: 'inventory_2' },
-  { label: 'DEEP_DIVE', href: '/post', icon: 'psychology' },
-  { label: 'EXECUTE_SUBMISSION', href: '/submit', icon: 'send' },
 ];
 
 export default function Sidebar() {

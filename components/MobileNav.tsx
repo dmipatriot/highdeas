@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation';
 
 const TABS = [
   { label: 'LIVE_FEED', href: '/', icon: 'sensors' },
-  { label: 'DEEP_DIVE', href: '/post', icon: 'psychology' },
   { label: 'ARCHIVE', href: '/archive', icon: 'inventory_2' },
 ];
 
