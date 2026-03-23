@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 import MobileNav from "@/components/MobileNav";
 
 export const metadata: Metadata = {
-  title: "HIGHDEAS",
+  title: "IDEATERMINAL",
   description: "A terminal-inspired archive of AI-generated ideas.",
 };
 

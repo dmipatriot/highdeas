@@ -43,7 +43,7 @@ export default async function ArchivePage({
           &gt; _ARCHIVE_DUMP_STREAM
         </h1>
         <p className="text-xs text-on-surface-variant uppercase tracking-widest">
-          {total} RECORD{total !== 1 ? 'S' : ''} FOUND // DATABASE: HIGHDEAS_V4 // STATUS: ONLINE
+          {total} RECORD{total !== 1 ? 'S' : ''} FOUND // DATABASE: IDEATERMINAL_V4 // STATUS: ONLINE
         </p>
       </div>
 

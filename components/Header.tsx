@@ -20,7 +20,7 @@ export default function Header() {
           href="/"
           className="font-bold text-sm tracking-widest text-[#00FF9C] animate-pulse crt-glow select-none"
         >
-          [HIGHDEAS]
+          [IDEATERMINAL]
         </Link>
 
         <nav className="hidden md:flex items-center gap-1">
