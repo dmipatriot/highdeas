@@ -7,9 +7,13 @@ function verdictLabel(verdict: Verdict): { text: string; className: string } {
   switch (verdict) {
     case 'GENIUS':
       return { text: '[ DECODED ]', className: 'text-primary-container' };
-    case 'COOKED':
+    case 'SOLID':
+      return { text: '[ VIABLE ]', className: 'text-[#60a5fa]' };
+    case 'RISKY':
+      return { text: '[ UNSTABLE ]', className: 'text-[#facc15]' };
+    case 'PASS':
       return { text: '[ CORRUPTED ]', className: 'text-error' };
-    case 'MAYBE':
+    default:
       return { text: '[ ARCHIVED ]', className: 'text-[#ababab]' };
   }
 }
