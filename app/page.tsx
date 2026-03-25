@@ -12,9 +12,13 @@ function verdictChipClass(verdict: Verdict): string {
   switch (verdict) {
     case 'GENIUS':
       return 'border border-primary-container text-primary-container';
-    case 'COOKED':
+    case 'SOLID':
+      return 'border border-[#60a5fa] text-[#60a5fa]';
+    case 'RISKY':
+      return 'border border-[#facc15] text-[#facc15]';
+    case 'PASS':
       return 'border border-error text-error';
-    case 'MAYBE':
+    default:
       return 'border border-secondary text-secondary opacity-60';
   }
 }
@@ -23,9 +27,13 @@ function analysisBlockBorderClass(verdict: Verdict): string {
   switch (verdict) {
     case 'GENIUS':
       return 'border-l-4 border-primary-container/40';
-    case 'COOKED':
+    case 'SOLID':
+      return 'border-l-4 border-[#60a5fa]/40';
+    case 'RISKY':
+      return 'border-l-4 border-[#facc15]/40';
+    case 'PASS':
       return 'border-l-4 border-error/40';
-    case 'MAYBE':
+    default:
       return 'border-l-4 border-secondary/40';
   }
 }
@@ -34,9 +42,13 @@ function accentBarClass(verdict: Verdict): string {
   switch (verdict) {
     case 'GENIUS':
       return 'bg-primary-container/20 group-hover:bg-primary-container';
-    case 'COOKED':
+    case 'SOLID':
+      return 'bg-[#60a5fa]/20 group-hover:bg-[#60a5fa]';
+    case 'RISKY':
+      return 'bg-[#facc15]/20 group-hover:bg-[#facc15]';
+    case 'PASS':
       return 'bg-error/20 group-hover:bg-error';
-    case 'MAYBE':
+    default:
       return 'bg-secondary/20 group-hover:bg-secondary';
   }
 }
