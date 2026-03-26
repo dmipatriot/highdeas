@@ -75,7 +75,8 @@ export async function getAllPublishedPosts(): Promise<Post[]> {
     .from('posts')
     .select('*')
     .eq('status', 'published')
-    .order('published_at', { ascending: false });
+    .order('published_at', { ascending: false, nullsFirst: false })
+    .order('created_at', { ascending: false });
 
   if (error) throw new Error(error.message);
   return (data ?? []) as Post[];

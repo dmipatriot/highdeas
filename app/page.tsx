@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { getAllPublishedPosts, Post, Verdict } from '@/lib/posts';
 
+export const dynamic = 'force-dynamic';
+
 const STATS = [
   { label: 'THOUGHT_VELOCITY', value: '4.2/hr' },
   { label: 'NEURAL_LOAD', value: '78.3%' },
