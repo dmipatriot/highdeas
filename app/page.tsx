@@ -112,7 +112,7 @@ export default async function Home() {
 
               {/* Title */}
               <Link href={`/post/${post.slug}`}>
-                <h2 className="text-xl md:text-2xl font-bold crt-glow uppercase mb-4 hover:text-primary transition-colors">
+                <h2 className="text-3xl md:text-4xl font-black text-primary tracking-tighter leading-none uppercase mb-4 crt-glow">
                   <span className="text-primary-container mr-2">&gt; _</span>
                   {post.title.toUpperCase()}
                 </h2>
