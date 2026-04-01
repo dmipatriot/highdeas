@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 const NAV_LINKS = [
   { label: 'LIVE_FEED', href: '/' },
   { label: 'ARCHIVE', href: '/archive' },
-  { label: 'DEEP_DIVE', href: '/post' },
+  { label: 'DEEP_DIVE', href: '/post', postOnly: true },
 ];
 
 export default function Header() {
@@ -24,7 +24,7 @@ export default function Header() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-1">
-          {NAV_LINKS.map(({ label, href }) => {
+          {NAV_LINKS.filter(({ postOnly }) => !postOnly || pathname.startsWith('/post')).map(({ label, href }) => {
             const isActive =
               href === '/' ? pathname === '/' : pathname.startsWith(href);
             return (
