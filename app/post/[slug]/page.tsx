@@ -9,6 +9,7 @@ import ForkButton from '@/components/ForkButton';
 import ForkSidebar from '@/components/ForkSidebar';
 import BusinessTypeBadge from '@/components/BusinessTypeBadge';
 import TechStackIcon from '@/components/TechStackIcon';
+import ShareButton from '@/components/ShareButton';
 
 export const dynamic = 'force-dynamic';
 
@@ -173,7 +174,7 @@ export default async function PostPage({
       </Link>
 
       {/* ── Entity header ─────────────────────────────────── */}
-      <div className="mb-10">
+      <div className="mb-4">
         <div className="flex items-center gap-3 mb-4 text-[11px] uppercase tracking-widest">
           <span className="text-primary font-bold">ID: {slug}</span>
           <span className="text-on-surface-variant/40">|</span>
@@ -185,13 +186,13 @@ export default async function PostPage({
         </h1>
 
         {post.business_type && (
-          <div className="mb-3">
+          <div className="mb-1 flex items-center">
             <BusinessTypeBadge type={post.business_type} />
           </div>
         )}
 
         {tags.length > 0 && (
-          <div className="flex flex-wrap gap-2">
+          <div className="mb-3 flex flex-wrap gap-2">
             {tags.map((tag: string) => (
               <span
                 key={tag}
@@ -202,8 +203,13 @@ export default async function PostPage({
             ))}
           </div>
         )}
-      </div>
 
+        {post.business_type && (
+          <div className="flex items-center">
+            <ShareButton postTitle={post.title} postSlug={post.slug} />
+          </div>
+        )}
+      </div>
       {/* ── Hero image ────────────────────────────────────── */}
       {post.image_url && (
         <div className="mb-10 relative w-full overflow-hidden">

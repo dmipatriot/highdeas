@@ -1,8 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Post, Verdict } from '@/lib/posts';
 import BusinessTypeBadge from '@/components/BusinessTypeBadge';
+import ShareModal from '@/components/ShareModal';
 
 function verdictLabel(verdict: Verdict): { text: string; className: string } {
   switch (verdict) {
@@ -37,6 +39,7 @@ function normalizeTags(tags: Post['tags']): string[] {
 
 export default function ArchiveRow({ post }: { post: Post }) {
   const router = useRouter();
+  const [isShareOpen, setIsShareOpen] = useState(false);
   const verdict = verdictLabel(post.verdict);
   const tags = normalizeTags(post.tags);
   const category = tags[0] ?? '—';
@@ -62,8 +65,20 @@ export default function ArchiveRow({ post }: { post: Post }) {
         <div className="flex flex-col items-start gap-1">
           <span>{verdict.text}</span>
           <BusinessTypeBadge type={post.business_type} size="sm" />
+          <button
+            onClick={(e) => { e.stopPropagation(); setIsShareOpen(true); }}
+            className="text-[10px] font-bold uppercase tracking-widest text-[#ababab] hover:text-[#00FF9C] transition-colors mt-1"
+          >
+            [[ SHARE ]]
+          </button>
         </div>
       </td>
+      <ShareModal
+        isOpen={isShareOpen}
+        onClose={() => setIsShareOpen(false)}
+        postTitle={post.title}
+        postSlug={post.slug}
+      />
     </tr>
   );
 }

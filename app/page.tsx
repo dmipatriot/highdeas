@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getAllPublishedPosts, Post, Verdict } from '@/lib/posts';
+import ShareButton from '@/components/ShareButton';
 
 export const dynamic = 'force-dynamic';
 
@@ -169,9 +170,7 @@ export default async function Home() {
                   <button className="text-on-surface-variant hover:text-on-surface transition-colors">
                     [[ FLAG_ANOMALY ]]
                   </button>
-                  <button className="text-on-surface-variant hover:text-on-surface transition-colors">
-                    [[ SHARE_ENCRYPTED ]]
-                  </button>
+                  <ShareButton postTitle={post.title} postSlug={post.slug} />
                 </div>
               </div>
             </article>
