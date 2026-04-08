@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { Fork } from '@/lib/forks';
 import ForkModal from './ForkModal';
@@ -122,6 +122,7 @@ export default function ForkSidebar({ forks, parentPostId, postSlug }: Props) {
   const [selectedFork, setSelectedFork] = useState<Fork | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState(false);
+  const mobileButtonRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
 
   function handleSelectFork(fork: Fork) {
@@ -163,7 +164,26 @@ export default function ForkSidebar({ forks, parentPostId, postSlug }: Props) {
       {/* Mobile section — collapsible, below main content */}
       <div className="lg:hidden border-t border-surface-container mt-10">
         <button
-          onClick={() => setMobileExpanded((v) => !v)}
+          ref={mobileButtonRef}
+          onClick={() => {
+            const expanding = mobileExpanded === false;
+            setMobileExpanded((v) => !v);
+            if (expanding) {
+              setTimeout(() => {
+                const button = mobileButtonRef.current;
+                if (!button) return;
+                const scrollContainer = button.closest('main') as HTMLElement | null;
+                if (scrollContainer) {
+                  const containerRect = scrollContainer.getBoundingClientRect();
+                  const buttonRect = button.getBoundingClientRect();
+                  scrollContainer.scrollTo({
+                    top: scrollContainer.scrollTop + buttonRect.top - containerRect.top - 8,
+                    behavior: 'smooth',
+                  });
+                }
+              }, 50);
+            }
+          }}
           className="w-full flex items-center justify-between px-4 py-3 text-[10px] text-[#00FF9C] font-bold uppercase tracking-[2px] hover:bg-[#00FF9C]/5 transition-colors"
         >
           <span>▸ FORK_TREE ({forks.length})</span>

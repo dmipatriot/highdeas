@@ -25,7 +25,7 @@ export default function RootLayout({
         <div className="scanline" />
         <Header />
         <Sidebar />
-        <main className="lg:ml-64 pt-14 pb-8">
+        <main className="lg:ml-64 pt-14 pb-16 lg:pb-8 overflow-y-auto overflow-x-hidden h-[100dvh]">
           {children}
         </main>
         <Footer />

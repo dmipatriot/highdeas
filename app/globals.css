@@ -44,10 +44,16 @@
 }
 
 /* ── Base ──────────────────────────────────────────────── */
+html {
+  height: 100%;
+}
+
 body {
   background: #000000;
   font-family: 'JetBrains Mono', monospace;
   cursor: crosshair;
+  height: 100dvh;
+  overflow: hidden;
 }
 
 /* ── Scanline overlay ──────────────────────────────────── */
