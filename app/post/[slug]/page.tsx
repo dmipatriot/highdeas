@@ -279,30 +279,26 @@ export default async function PostPage({
           </div>
         )}
 
-        {/* 3. Grouped dimension grid — 3 columns matching bars above */}
-        <div className="grid grid-cols-3 gap-x-3">
-          {/* Category headers */}
-          {DIMENSION_GROUPS.map(({ category, color }) => (
-            <div
-              key={category}
-              className="text-[9px] font-bold uppercase tracking-widest mb-2 pl-1"
-              style={{ color }}
-            >
-              {category}
+        {/* 3. Grouped dimension grid — stacks on mobile, 3 cols on desktop */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-14 sm:gap-3">
+          {DIMENSION_GROUPS.map(({ category, color, dimensions }) => (
+            <div key={category} className="flex flex-col gap-3">
+              <div
+                className="text-lg font-black uppercase tracking-widest border-b pb-2"
+                style={{ color, borderColor: `${color}33` }}
+              >
+                {category}
+              </div>
+              {dimensions.map(({ key, label }) => {
+                const val = post[key as keyof Post] as number | null;
+                const reason = post[`${key}_reason` as keyof Post] as string | null;
+                if (val == null) return null;
+                return (
+                  <DimensionTile key={key} label={label} score={val} reason={reason} />
+                );
+              })}
             </div>
           ))}
-          {/* Dimension tiles — each column stacks vertically */}
-          {Array.from({ length: 3 }).map((_, rowIdx) =>
-            DIMENSION_GROUPS.map(({ dimensions }) => {
-              const { key, label } = dimensions[rowIdx];
-              const val = post[key as keyof Post] as number | null;
-              const reason = post[`${key}_reason` as keyof Post] as string | null;
-              if (val == null) return <div key={key} />;
-              return (
-                <DimensionTile key={key} label={label} score={val} reason={reason} />
-              );
-            })
-          )}
         </div>
       </Section>
 
@@ -502,17 +498,15 @@ function DimensionTile({
     pct >= 7 ? '#00FF9C' : pct >= 4 ? '#facc15' : '#ff716c';
   return (
     <div className="p-4 bg-surface-container border border-white/5 flex flex-col gap-2">
-      <div className="flex items-center justify-between">
-        <span className="text-[9px] text-on-surface-variant uppercase tracking-widest">
-          {label}
-        </span>
-        <span className="text-sm font-black" style={{ color }}>
-          {pct}
-          <span className="text-[10px] text-on-surface-variant font-light">/10</span>
-        </span>
-      </div>
+      <span className="text-[11px] text-on-surface-variant uppercase tracking-widest">
+        {label}
+      </span>
+      <span className="text-2xl font-black leading-none" style={{ color }}>
+        {pct}
+        <span className="text-sm text-on-surface-variant font-light">/10</span>
+      </span>
       {reason && (
-        <p className="text-[10px] text-on-surface-variant/70 leading-relaxed">
+        <p className="text-sm text-on-surface-variant/80 leading-relaxed mt-1">
           {reason}
         </p>
       )}
